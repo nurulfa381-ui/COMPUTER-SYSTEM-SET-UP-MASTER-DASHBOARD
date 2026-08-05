@@ -1,1 +1,265 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5"
+  >
+
+  <meta
+    http-equiv="Cache-Control"
+    content="no-cache, no-store, must-revalidate"
+  >
+
+  <meta
+    http-equiv="Pragma"
+    content="no-cache"
+  >
+
+  <meta
+    http-equiv="Expires"
+    content="0"
+  >
+
+  <title>Login Master Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=20260805-master-2"
+  >
+</head>
+
+<body>
+
+  <main class="center-page">
+
+    <section class="panel login-panel">
+
+      <p class="eyebrow">
+        COMPUTER SYSTEM SET-UP • C01
+      </p>
+
+      <h1>
+        LOGIN PEGAWAI PENILAI
+      </h1>
+
+      <p class="muted">
+        Masukkan nama Pegawai Penilai dan PIN untuk membuka
+        Master Dashboard.
+      </p>
+
+      <label for="teacherName">
+        Nama Pegawai Penilai
+      </label>
+
+      <input
+        id="teacherName"
+        type="text"
+        placeholder="Masukkan nama penuh"
+        autocomplete="name"
+        autocapitalize="words"
+      >
+
+      <label for="teacherPin">
+        PIN Guru
+      </label>
+
+      <input
+        id="teacherPin"
+        type="password"
+        inputmode="numeric"
+        placeholder="Masukkan PIN"
+        autocomplete="off"
+      >
+
+      <p
+        id="loginMessage"
+        class="message"
+        aria-live="polite"
+      ></p>
+
+      <button
+        id="loginButton"
+        class="primary-button full"
+        type="button"
+      >
+        LOG MASUK MASTER DASHBOARD
+      </button>
+
+      <button
+        class="secondary-button full"
+        type="button"
+        onclick="window.location.href='index.html'"
+      >
+        KEMBALI
+      </button>
+
+      <div
+        style="
+          margin-top:18px;
+          padding:15px;
+          border-left:7px solid #34d399;
+          border-radius:14px;
+          background:rgba(52,211,153,0.12);
+        "
+      >
+        PIN awal: <strong>1515</strong>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script type="module">
+
+    import {
+      ensureFirebaseLogin
+    } from "./firebase-config.js?v=20260805-master-2";
+
+    const PIN_KEY =
+      "c01_master_teacher_pin_v1";
+
+    const SESSION_KEY =
+      "c01_master_teacher_session_v1";
+
+    const teacherName =
+      document.getElementById(
+        "teacherName"
+      );
+
+    const teacherPin =
+      document.getElementById(
+        "teacherPin"
+      );
+
+    const loginButton =
+      document.getElementById(
+        "loginButton"
+      );
+
+    const loginMessage =
+      document.getElementById(
+        "loginMessage"
+      );
+
+    loginButton.addEventListener(
+      "click",
+      loginTeacher
+    );
+
+    teacherPin.addEventListener(
+      "keydown",
+      function (event) {
+        if (event.key === "Enter") {
+          loginTeacher();
+        }
+      }
+    );
+
+    async function loginTeacher() {
+      const name =
+        teacherName.value.trim();
+
+      const pin =
+        teacherPin.value.trim();
+
+      loginMessage.textContent = "";
+
+      if (!name) {
+        loginMessage.textContent =
+          "Sila masukkan nama Pegawai Penilai.";
+
+        teacherName.focus();
+        return;
+      }
+
+      if (!pin) {
+        loginMessage.textContent =
+          "Sila masukkan PIN guru.";
+
+        teacherPin.focus();
+        return;
+      }
+
+      const savedPin =
+        localStorage.getItem(
+          PIN_KEY
+        ) || "1515";
+
+      if (pin !== savedPin) {
+        loginMessage.textContent =
+          "PIN guru tidak tepat.";
+
+        teacherPin.focus();
+        return;
+      }
+
+      loginButton.disabled = true;
+
+      loginButton.textContent =
+        "SEDANG MENYAMBUNG KE FIREBASE...";
+
+      loginMessage.style.color =
+        "#fbbf24";
+
+      loginMessage.textContent =
+        "Sedang membuka Master Dashboard...";
+
+      try {
+        const firebaseUser =
+          await ensureFirebaseLogin();
+
+        sessionStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({
+            name,
+            uid:
+              firebaseUser.uid,
+            loginAt:
+              new Date().toISOString()
+          })
+        );
+
+        loginMessage.style.color =
+          "#34d399";
+
+        loginMessage.textContent =
+          "Login berjaya.";
+
+        window.location.href =
+          "dashboard.html?v=20260805-master-2";
+
+      } catch (error) {
+        console.error(
+          "Login Master Dashboard gagal:",
+          error
+        );
+
+        loginMessage.style.color =
+          "#fb7185";
+
+        loginMessage.textContent =
+          "Sambungan Firebase gagal. Semak Internet dan cuba semula.";
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+          "CUBA SEMULA";
+      }
+    }
+
+  </script>
+
+</body>
+</html>
