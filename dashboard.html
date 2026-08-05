@@ -1,1 +1,404 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5"
+  >
+
+  <meta
+    http-equiv="Cache-Control"
+    content="no-cache, no-store, must-revalidate"
+  >
+
+  <meta
+    http-equiv="Pragma"
+    content="no-cache"
+  >
+
+  <meta
+    http-equiv="Expires"
+    content="0"
+  >
+
+  <title>Computer System Set-Up Master Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=20260805-master-3"
+  >
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="panel dashboard-header">
+
+      <div>
+
+        <p class="eyebrow">
+          COMPUTER SYSTEM SET-UP • C01
+        </p>
+
+        <h1>
+          MASTER DASHBOARD
+        </h1>
+
+        <p
+          id="teacherGreeting"
+          class="muted"
+        >
+          Memuatkan sesi Pegawai Penilai...
+        </p>
+
+      </div>
+
+      <div class="dashboard-actions">
+
+        <button
+          id="refreshButton"
+          class="secondary-button"
+          type="button"
+        >
+          MUAT SEMULA
+        </button>
+
+        <button
+          id="csvButton"
+          class="secondary-button"
+          type="button"
+        >
+          EXPORT CSV
+        </button>
+
+        <button
+          id="backupButton"
+          class="secondary-button"
+          type="button"
+        >
+          BACKUP JSON
+        </button>
+
+        <button
+          id="changePinButton"
+          class="secondary-button"
+          type="button"
+        >
+          TUKAR PIN
+        </button>
+
+        <button
+          id="logoutButton"
+          class="danger-button"
+          type="button"
+        >
+          LOG KELUAR
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="dashboard-stats">
+
+      <article class="stat-card">
+
+        <span>
+          Jumlah Pelatih
+        </span>
+
+        <strong id="totalStudents">
+          0
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span>
+          Menunggu Pengesahan
+        </span>
+
+        <strong id="totalPending">
+          0
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span>
+          Terampil
+        </span>
+
+        <strong id="totalCompetent">
+          0
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span>
+          Belum Terampil
+        </span>
+
+        <strong id="totalFailed">
+          0
+        </strong>
+
+      </article>
+
+      <article class="stat-card">
+
+        <span>
+          Purata Keseluruhan
+        </span>
+
+        <strong id="overallAverage">
+          0%
+        </strong>
+
+      </article>
+
+    </section>
+
+
+    <section class="panel">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            PRESTASI MENGIKUT MODUL
+          </p>
+
+          <h2>
+            KT13, KT14 DAN KT15
+          </h2>
+
+        </div>
+
+        <span
+          id="connectionStatus"
+          class="connection-status connecting"
+        >
+          MENYAMBUNG...
+        </span>
+
+      </div>
+
+      <div class="module-summary-grid">
+
+        <article class="module-summary-card">
+
+          <span>
+            KT13
+          </span>
+
+          <strong id="kt13Average">
+            0%
+          </strong>
+
+          <small id="kt13Count">
+            0 rekod
+          </small>
+
+        </article>
+
+        <article class="module-summary-card">
+
+          <span>
+            KT14
+          </span>
+
+          <strong id="kt14Average">
+            0%
+          </strong>
+
+          <small id="kt14Count">
+            0 rekod
+          </small>
+
+        </article>
+
+        <article class="module-summary-card">
+
+          <span>
+            KT15
+          </span>
+
+          <strong id="kt15Average">
+            0%
+          </strong>
+
+          <small id="kt15Count">
+            0 rekod
+          </small>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            CARIAN DAN TAPISAN
+          </p>
+
+          <h2>
+            REKOD PENILAIAN PELATIH
+          </h2>
+
+        </div>
+
+      </div>
+
+      <div class="filter-grid">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Cari nama atau ID pelatih"
+        >
+
+        <select id="moduleFilter">
+
+          <option value="ALL">
+            Semua Modul
+          </option>
+
+          <option value="KT13">
+            KT13
+          </option>
+
+          <option value="KT14">
+            KT14
+          </option>
+
+          <option value="KT15">
+            KT15
+          </option>
+
+        </select>
+
+        <select id="statusFilter">
+
+          <option value="ALL">
+            Semua Status
+          </option>
+
+          <option value="MENUNGGU_PENGESAHAN">
+            Menunggu Pengesahan
+          </option>
+
+          <option value="TERAMPIL">
+            Terampil
+          </option>
+
+          <option value="BELUM_TERAMPIL">
+            Belum Terampil
+          </option>
+
+          <option value="BELUM_DINILAI">
+            Belum Dinilai
+          </option>
+
+        </select>
+
+      </div>
+
+      <div
+        id="studentTable"
+        class="table-container"
+      >
+
+        <div class="empty-state">
+
+          <h3>
+            Sedang memuatkan rekod...
+          </h3>
+
+          <p>
+            Data akan dipaparkan daripada Firebase.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            RANKING
+          </p>
+
+          <h2>
+            PRESTASI TERBAIK PELATIH
+          </h2>
+
+        </div>
+
+      </div>
+
+      <div
+        id="rankingList"
+        class="ranking-list"
+      >
+
+        <div class="empty-state">
+
+          <p>
+            Ranking akan dipaparkan selepas data diterima.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <div
+    id="toast"
+    class="toast hidden"
+  ></div>
+
+
+  <script
+    type="module"
+    src="teacher-dashboard.js?v=20260805-master-3"
+  ></script>
+
+</body>
+</html>
